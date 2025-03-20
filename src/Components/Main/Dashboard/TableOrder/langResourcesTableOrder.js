@@ -1,0 +1,50 @@
+export const langResources = {
+    eng: {
+        orderTitle: "Order QR Plaque",
+        pageNameLabel: "Page Name",
+        tabletSizeLabel: "Plaque Size",
+        tabletSizeOptions: {
+            small: "10x15 cm",
+            medium: "15x20 cm",
+            large: "20x30 cm",
+        },
+        countryLabel: "Country",
+        cityLabel: "City",
+        deliveryAddressLabel: "Delivery Address",
+        paymentMethodLabel: "Payment Method",
+        paymentMethodOptions: {
+            card: "Card",
+            paypal: "PayPal",
+            googlepay: "Google Pay",
+            applepay: "Apple Pay",
+        },
+        orderButton: "Place Order",
+        snackbarSuccess: "QR plaque order successfully placed!",
+        snackbarError: "Error placing order",
+        snackbarIncompleteFields: "Please fill in all fields",
+    },
+    ua: {
+        orderTitle: "Замовлення QR-таблички",
+        pageNameLabel: "Назва сторінки",
+        tabletSizeLabel: "Розмір таблички",
+        tabletSizeOptions: {
+            small: "10x15 см",
+            medium: "15x20 см",
+            large: "20x30 см",
+        },
+        countryLabel: "Країна",
+        cityLabel: "Місто",
+        deliveryAddressLabel: "Адреса доставки",
+        paymentMethodLabel: "Спосіб оплати",
+        paymentMethodOptions: {
+            card: "Картка",
+            paypal: "PayPal",
+            googlepay: "Google Pay",
+            applepay: "Apple Pay",
+        },
+        orderButton: "Оформити замовлення",
+        snackbarSuccess: "Замовлення на QR-табличку успішно оформлено!",
+        snackbarError: "Помилка при оформленні замовлення",
+        snackbarIncompleteFields: "Будь ласка, заповніть всі поля",
+    }
+};
