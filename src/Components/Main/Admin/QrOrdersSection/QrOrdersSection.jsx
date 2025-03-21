@@ -1,37 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography } from '@mui/material';
-import axios from 'axios'; // Імпортуємо axios для HTTP-запитів
+import axios from 'axios';
 
 const QrOrdersSection = () => {
-    const [orders, setOrders] = useState([]); // Стан для зберігання замовлень
-    const [loading, setLoading] = useState(true); // Стан для відстеження завантаження даних
-    const [error, setError] = useState(null); // Стан для відстеження помилок
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // Отримання даних з бекенду
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/order/orders'); // Виконуємо GET-запит до API
-                setOrders(response.data.orders); // Оновлюємо стан з отриманими даними
-                setLoading(false); // Вказуємо, що дані завантажено
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/order/orders`); // Використовуємо змінну оточення
+                setOrders(response.data.orders);
+                setLoading(false);
             } catch (error) {
-                setError('Помилка при отриманні замовлень'); // Встановлюємо повідомлення про помилку
-                setLoading(false); // Вказуємо, що завантаження завершено (з помилкою)
+                setError('Помилка при отриманні замовлень');
+                setLoading(false);
                 console.error('Помилка при отриманні замовлень:', error);
             }
         };
 
-        fetchOrders(); // Викликаємо функцію для отримання даних
-    }, []); // Порожній масив залежностей означає, що ефект виконається лише раз при монтажі компонента
+        fetchOrders();
+    }, []);
 
     // Функція для оновлення статусу замовлення на "Виконано"
     const handleCompleteOrder = async (orderId) => {
         try {
-            // Виконуємо PUT-запит для оновлення статусу замовлення
-            const response = await axios.put(`http://localhost:5000/api/order/order/${orderId}/status`, { status: 'completed' });
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/order/order/${orderId}/status`, { status: 'completed' }); // Використовуємо змінну оточення
             const updatedOrder = response.data.order;
 
-            // Оновлюємо стан замовлень
             setOrders(orders.map(order =>
                 order._id === updatedOrder._id ? updatedOrder : order
             ));
@@ -71,7 +69,7 @@ const QrOrdersSection = () => {
                             <TableRow key={order._id}>
                                 <TableCell>{order._id}</TableCell>
                                 <TableCell>
-                                    {order.customerName} ({order.pageName}) {/* Додаємо назву сторінки */}
+                                    {order.customerName} ({order.pageName})
                                 </TableCell>
                                 <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
                                 <TableCell>{order.status === 'completed' ? 'Виконано' : 'В обробці'}</TableCell>

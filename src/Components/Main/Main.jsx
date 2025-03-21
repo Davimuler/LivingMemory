@@ -24,9 +24,9 @@ function Main() {
     const lang = location.pathname.split('/')[1]; // Берем язык из URL
     const supportedLanguages = ['ua', 'eng'];
 
-    // if (!supportedLanguages.includes(lang)) {
-    //     navigate('/ua'); // Если язык некорректный — редиректим на /ua
-    // }
+     if (!supportedLanguages.includes(lang)) {
+         navigate('/ua'); // Если язык некорректный — редиректим на /ua
+     }
 
     const showSupportWidget = ![`/${lang}/register`, `/${lang}/login`].includes(location.pathname);
 

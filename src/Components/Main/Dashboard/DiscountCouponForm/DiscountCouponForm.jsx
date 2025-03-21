@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { Box, Button, Card, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom'; // Добавляем useLocation
-import { langResources } from './langResourcesDiscountForm'; // Импортируем языковые ресурсы
+import { useLocation } from 'react-router-dom';
+import { langResources } from './langResourcesDiscountForm';
 import { setReferralCount, setDiscountStatus, setReferralCode } from '../../../../redux/authSlice';
 
 function DiscountCouponForm(props) {
     const [discountCode, setDiscountCode] = useState('');
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
-    const location = useLocation(); // Хук для получения текущего пути
-    const pathLang = location.pathname.split('/')[1]; // Извлекаем язык из URL (например, "/en/dashboard" -> "en")
-    const language = langResources[pathLang] ? pathLang : 'en'; // Определяем язык по умолчанию
-    const texts = langResources[language]; // Тексты для текущего языка
+    const location = useLocation();
+    const pathLang = location.pathname.split('/')[1];
+    const language = langResources[pathLang] ? pathLang : 'en';
+    const texts = langResources[language];
 
     const handleApplyDiscount = async () => {
         if (!discountCode) {
@@ -25,10 +25,10 @@ function DiscountCouponForm(props) {
 
         try {
             // Отправляем запрос на сервер для инкремента referralCount
-            const referralResponse = await axios.post('http://localhost:5000/api/auth/incrementReferral', {
+            const referralResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/incrementReferral`, {
                 referralCode: discountCode, // Используем введенный код купона
             });
-            const discountResponse = await axios.put('http://localhost:5000/api/auth/updateDiscountStatus', {
+            const discountResponse = await axios.put(`${process.env.REACT_APP_API_URL}/api/auth/updateDiscountStatus`, {
                 userId: props.id, // Используем ID текущего пользователя
                 isDiscount: true, // Устанавливаем isDiscount в true
             });

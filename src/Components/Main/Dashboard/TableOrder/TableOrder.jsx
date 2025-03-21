@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Card, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import axios from 'axios';
-import { useLocation } from 'react-router-dom'; // Добавляем useLocation
-import { langResources } from './langResourcesTableOrder'; // Импортируем языковые ресурсы
+import { useLocation } from 'react-router-dom';
+import { langResources } from './langResourcesTableOrder';
 
 function TableOrder(props) {
     const [tabletSize, setTabletSize] = useState('10x15'); // Розмір таблички
@@ -32,7 +32,7 @@ function TableOrder(props) {
     const handleOrderQRTablet = async () => {
         if (pageName && deliveryAddress && tabletSize && paymentMethod && country && city) {
             try {
-                const response = await axios.post('http://localhost:5000/api/order/order', {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/order/order`, { // Используем переменную окружения
                     pageName,
                     tabletSize,
                     deliveryAddress,

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Grid, Paper, Divider, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom'; // Добавляем useLocation
-import { langResources } from './UserMonumentsTexts'; // Импортируем языковые ресурсы
+import { useLocation } from 'react-router-dom';
+import { langResources } from './UserMonumentsTexts';
 
 const UserMonuments = ({ userEmail }) => {
     const [monuments, setMonuments] = useState([]);
@@ -19,7 +19,7 @@ const UserMonuments = ({ userEmail }) => {
     useEffect(() => {
         const fetchMonuments = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/monuments/creator/${userEmail}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/monuments/creator/${userEmail}`); // Используем переменную окружения
                 setMonuments(response.data);
                 setLoading(false);
             } catch (err) {
@@ -34,7 +34,7 @@ const UserMonuments = ({ userEmail }) => {
     // Функция для удаления карточки
     const handleDeleteMonument = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/monuments/${id}`);
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/monuments/${id}`); // Используем переменную окружения
             // Обновляем состояние, удаляя карточку из списка
             setMonuments(monuments.filter(monument => monument._id !== id));
         } catch (err) {

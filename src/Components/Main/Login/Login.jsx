@@ -6,28 +6,25 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import GoogleIcon from '@mui/icons-material/Google';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../redux/authSlice';
-import { useLocation } from 'react-router-dom'; // Импортируем useLocation
-import { langResources } from './langResources'; // Импортируем языковые ресурсы
+import { useLocation } from 'react-router-dom';
+import { langResources } from './langResources';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-
     const { auth } = useContext(Context);
     const dispatch = useDispatch();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    // Получаем текущий путь из URL
     const location = useLocation();
-    const pathLang = location.pathname.split('/')[1]; // Извлекаем язык из URL (например, "/en/login" -> "en")
+    const pathLang = location.pathname.split('/')[1];
 
-    // Определяем язык по умолчанию, если язык из URL не поддерживается
     const language = langResources[pathLang] ? pathLang : 'eng';
-    const texts = langResources[language]; // Тексты для текущего языка
+    const texts = langResources[language];
 
     const buttonStyle = {
         borderColor: '#CE8946',
@@ -42,8 +39,9 @@ const Login = () => {
     };
 
     const fetchUserData = async (email) => {
+        console.log("Запрос к URL:", `${process.env.REACT_APP_API_URL}/api/auth/getuser`);
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/getuser', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/getuser`, {
                 email: email,
             });
             console.log(response.data.user);
@@ -86,7 +84,7 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
                 email,
                 password
             });

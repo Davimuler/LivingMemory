@@ -10,24 +10,22 @@ function LinkedCreatedProfileCards(props) {
     const [cards, setCards] = useState([]);
     const email = useSelector((state) => state.auth.user.email);
     const navigate = useNavigate();
-   // const { lang } = useParams(); // Получаем текущий язык из URL
+    const { lang, goTo } = useLang(); // Используем хук useLang
 
     // Функция для получения данных с бекенда
     const fetchDrafts = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/drafts/email/${email}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/drafts/email/${email}`); // Используем переменную окружения
             setCards(response.data.drafts);
         } catch (error) {
             console.error("Ошибка при получении данных:", error);
         }
     };
-    const { lang, goTo } = useLang(); // Используем хук useLang
 
     // Выполняем запрос при монтировании компонента
     useEffect(() => {
         fetchDrafts();
     }, []);
-
 
     const handleEdit = (id) => {
         goTo(`editpage/${id}`);

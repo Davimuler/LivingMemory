@@ -29,7 +29,7 @@ function Page() {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/drafts/id/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL}/api/drafts/id/${id}`)
             .then(response => response.json())
             .then(data => setProfile(data.draft))
             .catch(error => console.error('Ошибка при загрузке данных:', error));

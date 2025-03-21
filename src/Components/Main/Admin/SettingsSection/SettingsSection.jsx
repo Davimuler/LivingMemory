@@ -28,7 +28,7 @@ const SiteSettings = () => {
     useEffect(() => {
         const fetchSettings = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/settings');
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/settings`); // Используем переменную окружения
                 setRates(response.data); // Устанавливаем данные в состояние
             } catch (error) {
                 console.error('Помилка завантаження налаштувань:', error);
@@ -56,7 +56,7 @@ const SiteSettings = () => {
     // Обработчик сохранения изменений
     const handleSave = async () => {
         try {
-            const response = await axios.put('http://localhost:5000/api/settings', rates);
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/settings`, rates); // Используем переменную окружения
             console.log('Збережені налаштування:', response.data);
             showSnackbar('Налаштування успішно збережено!', 'success');
         } catch (error) {

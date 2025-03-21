@@ -20,7 +20,7 @@ const SupportChat = () => {
     // Функція для отримання всіх звернень
     const fetchTickets = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/support/tickets');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/support/tickets`); // Используем переменную окружения
             setTickets(response.data);
         } catch (error) {
             console.error('Помилка при отриманні звернень:', error);
@@ -31,11 +31,11 @@ const SupportChat = () => {
     const handleTicketSelect = async (ticket) => {
         try {
             // Запит на отримання конкретного звернення за userEmail
-            const response = await axios.get('http://localhost:5000/api/support/tickets/gmail', {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/support/tickets/gmail`, {
                 params: { userEmail: ticket.userEmail }, // Тут має бути точна відповідність
             });
             console.log(response.data);
-             setSelectedTicket(response.data); // Встановлюємо обране звернення
+            setSelectedTicket(response.data); // Встановлюємо обране звернення
         } catch (error) {
             console.error('Помилка при отриманні чату:', error);
         }
@@ -46,7 +46,7 @@ const SupportChat = () => {
         if (newMessage.trim() === '') return;
 
         try {
-            const response = await axios.post('http://localhost:5000/api/support/tickets/messages ', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/support/tickets/messages`, {
                 userEmail: selectedTicket.userEmail,
                 sender: 'support',
                 text: newMessage,
@@ -62,7 +62,7 @@ const SupportChat = () => {
     // Обробник закриття звернення
     const handleCloseTicket = async () => {
         try {
-            await axios.post('http://localhost:5000/api/support/close', { userEmail: selectedTicket.userEmail });
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/support/close`, { userEmail: selectedTicket.userEmail });
             fetchTickets(); // Оновлюємо список звернень
             setSelectedTicket(null); // Очищаємо обране звернення
         } catch (error) {

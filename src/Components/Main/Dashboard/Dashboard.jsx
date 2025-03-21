@@ -13,8 +13,8 @@ import {
     Tab,
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom'; // Добавляем useLocation
-import { langResources } from './langResourcesDashboard'; // Импортируем языковые ресурсы
+import { useLocation } from 'react-router-dom';
+import { langResources } from './langResourcesDashboard';
 import TableOrder from "./TableOrder/TableOrder";
 import PaymentHistory from "./PaymentHistory/PaymentHistory";
 import AccountSettings from "./AccountSettings/AccountSettings";
@@ -27,10 +27,10 @@ import { setReferralCode, setUserStatus } from "../../../redux/authSlice";
 const Dashboard = () => {
     const dispatch = useDispatch();
     const userR = useSelector((state) => state.auth.user);
-    const location = useLocation(); // Хук для получения текущего пути
-    const pathLang = location.pathname.split('/')[1]; // Извлекаем язык из URL (например, "/en/dashboard" -> "en")
-    const language = langResources[pathLang] ? pathLang : 'en'; // Определяем язык по умолчанию
-    const texts = langResources[language]; // Тексты для текущего языка
+    const location = useLocation();
+    const pathLang = location.pathname.split('/')[1];
+    const language = langResources[pathLang] ? pathLang : 'en';
+    const texts = langResources[language];
 
     const [user, setUser] = useState({
         name: userR.displayName || texts.profileName,
@@ -69,7 +69,7 @@ const Dashboard = () => {
 
     const updateReferralCode = async (userId, referralCode) => {
         try {
-            const response = await axios.put('http://localhost:5000/api/auth/updateReferralCode', { userId, referralCode });
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/auth/updateReferralCode`, { userId, referralCode }); // Используем переменную окружения
             return response.data;
         } catch (error) {
             console.error('Ошибка при обновлении реферального кода:', error);
@@ -108,7 +108,7 @@ const Dashboard = () => {
 
     const handleBecomePartner = async () => {
         try {
-            const response = await axios.put('http://localhost:5000/api/auth/becomePartner', { userId: userR._id });
+            const response = await axios.put(`${process.env.REACT_APP_API_URL}/api/auth/becomePartner`, { userId: userR._id }); // Используем переменную окружения
             setUser({ ...user, isPartner: true });
             dispatch(setUserStatus(true));
 

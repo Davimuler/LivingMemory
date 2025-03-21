@@ -4,8 +4,8 @@ import axios from 'axios';
 import { Context } from "../../../index";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import GoogleIcon from '@mui/icons-material/Google';
-import { useLocation } from 'react-router-dom'; // Импортируем useLocation
-import { langResources } from './langResources'; // Импортируем языковые ресурсы
+import { useLocation } from 'react-router-dom';
+import { langResources } from './langResources';
 
 const Registration = () => {
     const [formData, setFormData] = useState({
@@ -38,13 +38,10 @@ const Registration = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    // Получаем текущий путь из URL
     const location = useLocation();
-    const pathLang = location.pathname.split('/')[1]; // Извлекаем язык из URL (например, "/en/registration" -> "en")
-
-    // Определяем язык по умолчанию, если язык из URL не поддерживается
+    const pathLang = location.pathname.split('/')[1];
     const language = langResources[pathLang] ? pathLang : 'eng';
-    const texts = langResources[language]; // Тексты для текущего языка
+    const texts = langResources[language];
 
     const RegWithGoogle = async () => {
         const provider = new GoogleAuthProvider();
@@ -53,7 +50,7 @@ const Registration = () => {
             const user = result.user;
             console.log(user);
 
-            const response = await axios.post('http://localhost:5000/api/auth/google', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/google`, {
                 accessToken: user.accessToken,
                 email: user.email,
                 displayName: user.displayName,
@@ -106,7 +103,7 @@ const Registration = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/register', dataToSend);
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, dataToSend);
 
             if (response.status === 201) {
                 setSuccessMessage(texts.registrationSuccess);

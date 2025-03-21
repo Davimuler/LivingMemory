@@ -69,7 +69,7 @@ function EditPage() {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/drafts/id/${id}`)
+        fetch( `${process.env.REACT_APP_API_URL}/api/drafts/id/${id}`)
             .then((response) => response.json())
             .then((data) => {
                 setProfile(data.draft);
@@ -89,7 +89,7 @@ function EditPage() {
         formData.append("file", file);
 
         try {
-            const response = await axios.post("http://localhost:5000/api/upload", formData, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -143,7 +143,7 @@ function EditPage() {
             alert("У вас нет прав на редактирование этого профиля.");
             return;
         }
-        fetch(`http://localhost:5000/api/drafts/update/${id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/api/drafts/update/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

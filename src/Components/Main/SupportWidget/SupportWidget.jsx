@@ -30,7 +30,7 @@ const SupportWidget = () => {
     // Функція для завантаження історії чату
     const loadChatHistory = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/support/tickets/gmail', {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/support/tickets/gmail`, {
                 params: { userEmail }, // Передаємо пошту як параметр запиту
             });
 
@@ -58,7 +58,7 @@ const SupportWidget = () => {
 
             try {
                 // Відправляємо повідомлення на бекенд
-                const response = await axios.post('http://localhost:5000/api/support/tickets', {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/support/tickets`, {
                     userEmail,
                     message: inputValue,
                 });
